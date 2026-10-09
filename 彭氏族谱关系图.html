@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>彭氏族譜｜世系關係圖</title>
+  <style>
+    :root{--paper:#f5f0e6;--panel:#fffdf8;--ink:#292b29;--muted:#74756f;--line:#b8b5aa;--gold:#a57931;--blue:#347a82;--red:#a45d49;--purple:#77668d;--green:#6b815e;--border:#ded8c9;--shadow:0 5px 18px #40392312}
+    *{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:ui-serif,"Noto Serif TC","Songti TC","PMingLiU",serif;background:var(--paper);color:var(--ink)}
+    .app{height:100%;display:flex;flex-direction:column}.top{padding:18px 24px 12px;border-bottom:1px solid var(--border);background:#f9f6ef}.eyebrow{font:600 11px/1.2 ui-sans-serif,system-ui,sans-serif;letter-spacing:.13em;color:var(--gold);text-transform:uppercase}.title-row{display:flex;align-items:baseline;gap:14px;margin-top:5px}.title-row h1{font-size:25px;margin:0;font-weight:650;letter-spacing:.04em}.subtitle{font-size:13px;color:var(--muted)}
+    .toolbar{display:flex;gap:9px;align-items:center;padding:10px 18px;border-bottom:1px solid var(--border);background:#f7f3ea;flex-wrap:wrap}.search{position:relative;flex:1;min-width:210px;max-width:340px}.search input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:9px;background:var(--panel);font:14px ui-sans-serif,system-ui,sans-serif;color:var(--ink);outline:none}.search input:focus{border-color:#b49b6b;box-shadow:0 0 0 3px #a579311a}.search:before{content:"⌕";position:absolute;left:12px;top:6px;font:20px ui-sans-serif;color:var(--muted)}
+    .filters{display:flex;gap:5px;flex-wrap:wrap}.filter,.toolbtn{border:1px solid var(--border);background:#fffdf8;color:#4a4a43;border-radius:8px;padding:8px 11px;font:12px ui-sans-serif,system-ui,sans-serif;cursor:pointer;white-space:nowrap}.filter:hover,.toolbtn:hover{border-color:#baa778}.filter.active{background:#393b36;color:white;border-color:#393b36}.spacer{flex:1}.toolbtn{padding:7px 10px;font-size:15px}.zoom-label{font:12px ui-sans-serif;color:var(--muted);min-width:38px;text-align:center}.mini-note{font:11px ui-sans-serif;color:var(--muted);white-space:nowrap}
+    .legend{display:flex;gap:15px;align-items:center;padding:8px 22px;border-bottom:1px solid var(--border);font:11px ui-sans-serif,system-ui,sans-serif;color:#66675f;background:#fbf9f3}.leg{display:flex;align-items:center;gap:6px}.line-key{width:29px;border-top:2px solid #76776e}.line-key.dash{border-top-style:dashed;border-color:#9b7b45}.line-key.adopt{border-top:2px dotted var(--blue)}.branch-dot{width:8px;height:8px;border-radius:50%;display:inline-block;background:var(--gold)}
+    .content{display:flex;flex:1;min-height:0}.viewport{position:relative;overflow:auto;flex:1;min-width:0;scrollbar-color:#c8c0ae transparent;scrollbar-width:thin}.world{position:relative;transform-origin:top left;background-image:radial-gradient(#b8af9b55 .7px,transparent .7px);background-size:18px 18px}.edge-layer{position:absolute;inset:0;overflow:visible;pointer-events:none}.edge{fill:none;stroke:#97958a;stroke-width:1.7;opacity:.72}.edge.tentative{stroke:#a57931;stroke-dasharray:6 5;opacity:.8}.edge.adopted{stroke:var(--blue);stroke-width:2;stroke-dasharray:2 5;opacity:.95}.edge.context{stroke:#a9a69b;stroke-dasharray:3 6;opacity:.6}.edge.selected{stroke:#222;stroke-width:2.8;opacity:1}.col-title{position:absolute;top:17px;width:212px;text-align:center;color:#747065;font:600 12px/1.45 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em}.col-title span{display:block;font:10px ui-sans-serif;color:#a09a8d;font-weight:400;letter-spacing:0;margin-top:2px}.card{position:absolute;width:206px;min-height:86px;background:#fffdf9;border:1px solid #d9d3c5;border-radius:10px;box-shadow:var(--shadow);padding:9px 11px 8px;cursor:pointer;transition:opacity .15s,border-color .15s,transform .15s;z-index:2}.card:hover{border-color:#b69960;transform:translateY(-2px);z-index:4}.card.selected{border:2px solid #756038;box-shadow:0 0 0 3px #a579311c,var(--shadow)}.card.dim{opacity:.17}.card.path{border-color:#81724f;opacity:1}.card.uncertain{background:#fbf7eb;border-style:dashed}.card.group{width:206px;background:#f3efe4;border-style:dashed;cursor:default;box-shadow:none}.card.group:hover{transform:none}.card-top{display:flex;justify-content:space-between;gap:5px;align-items:center}.name{font-size:18px;line-height:1.25;font-weight:650;letter-spacing:.04em}.generation-chip{font:10px ui-sans-serif,system-ui,sans-serif;color:#8d887b;background:#f1ede3;padding:3px 5px;border-radius:5px;white-space:nowrap}.spouses{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}.spouse{font:10px ui-sans-serif,system-ui,sans-serif;color:#6d685f;background:#f4f0e7;border:1px solid #ebe5d7;border-radius:5px;padding:2px 5px}.note{font:10px/1.35 ui-sans-serif,system-ui,sans-serif;color:#7a776f;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.branch-mark{position:absolute;left:-4px;top:12px;width:5px;height:24px;border-radius:3px;background:var(--gold)}.branch-long .branch-mark{background:var(--gold)}.branch-second .branch-mark{background:var(--blue)}.branch-minor .branch-mark{background:var(--purple)}.branch-public .branch-mark{background:var(--green)}.branch-side .branch-mark{background:#99958b}
+    .inspector{width:300px;flex:none;border-left:1px solid var(--border);background:#fbf9f3;padding:19px 18px;overflow:auto}.inspect-empty{color:#88877f;font-size:13px;line-height:1.65}.inspect-empty .big{font-size:37px;color:#c9c1b1;margin-bottom:8px}.detail-kicker{font:600 10px ui-sans-serif,system-ui,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}.detail-title{font-size:25px;margin:5px 0 2px}.detail-gen{color:#777369;font:12px ui-sans-serif,system-ui,sans-serif}.detail-section{border-top:1px solid var(--border);margin-top:14px;padding-top:12px}.detail-section h3{font:600 11px ui-sans-serif,system-ui,sans-serif;color:#777369;margin:0 0 7px}.detail-body{font-size:13px;line-height:1.65;white-space:pre-line}.rel-chip{display:inline-block;background:#f0ede5;border:1px solid #e2dccf;border-radius:5px;padding:3px 6px;margin:2px;font-size:11px}.source-link{display:inline-block;color:#386e73;text-decoration:none;border-bottom:1px solid #a8c4c3;margin:2px 7px 3px 0;font:11px ui-sans-serif,system-ui,sans-serif}.source-link:hover{color:#1d4b50}.source-note{font:10px/1.5 ui-sans-serif,system-ui,sans-serif;color:#827f76;margin-top:10px}
+    .statusbar{display:flex;justify-content:space-between;align-items:center;padding:6px 17px;border-top:1px solid var(--border);background:#f9f6ef;color:#77746b;font:10px ui-sans-serif,system-ui,sans-serif}.statusbar strong{color:#4d4d46;font-weight:600}.pill{border-radius:100px;background:#eee8db;padding:3px 8px}
+    @media(max-width:900px){.inspector{width:250px}.legend{gap:9px}.mini-note{display:none}}
+    @media(max-width:680px){.top{padding:14px 15px 10px}.title-row{display:block}.title-row h1{font-size:21px}.subtitle{display:block;margin-top:4px}.toolbar{padding:8px 10px}.inspector{position:absolute;z-index:10;bottom:35px;left:10px;right:10px;width:auto;max-height:38vh;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);display:none}.inspector.open{display:block}.legend{overflow:auto;white-space:nowrap;padding:7px 12px}.filters{order:3;width:100%;overflow:auto;flex-wrap:nowrap}.filter{padding:7px 9px}.statusbar{font-size:9px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="eyebrow">PENG FAMILY · GENEALOGY</div>
+    <div class="title-row"><h1>彭氏族譜・世系關係圖</h1><span class="subtitle">按已校準人物記錄串接；點選人名查看配偶、子嗣與照片來源</span></div>
+  </header>
+  <div class="toolbar">
+    <label class="search"><input id="search" type="search" placeholder="搜尋人名、配偶或旁註…" aria-label="搜尋族譜"></label>
+    <div class="filters" id="filters">
+      <button class="filter active" data-branch="all">全部</button>
+      <button class="filter" data-branch="long">長房</button>
+      <button class="filter" data-branch="second">二房</button>
+      <button class="filter" data-branch="minor">幺房</button>
+    </div>
+    <span class="spacer"></span>
+    <button class="toolbtn" id="zoomOut" title="縮小">−</button><span class="zoom-label" id="zoomLabel">100%</span><button class="toolbtn" id="zoomIn" title="放大">＋</button>
+    <button class="toolbtn" id="fit" title="適合視窗">適合</button>
+    <span class="mini-note">按住 Shift 滾輪可水平移動</span>
+  </div>
+  <div class="legend">
+    <span class="leg"><i class="line-key"></i>記載明確的父子</span>
+    <span class="leg"><i class="line-key adopt"></i>嗣子／承繼</span>
+    <span class="leg"><i class="line-key dash"></i>代次推接或譜圖待核</span>
+    <span class="leg"><i class="branch-dot"></i>色條標示房支</span>
+  </div>
+  <main class="content">
+    <section class="viewport" id="viewport" aria-label="族譜關係圖，可水平及垂直捲動">
+      <div class="world" id="world"><svg class="edge-layer" id="edges"></svg><div id="columns"></div><div id="cards"></div></div>
+    </section>
+    <aside class="inspector" id="inspector">
+      <div class="inspect-empty"><div class="big">譜</div>點選任一人物卡片，可查看其配偶、子嗣、旁註及對應照片。<br><br>第 6–15 張樹圖與第 16–48 張詳頁按同一譜系對讀；重名先按同一人整理，父系記載有衝突時保留來源並標註待核。</div>
+    </aside>
+  </main>
+  <footer class="statusbar"><span id="countText">載入世系資料…</span><span>照片編號依目前 0–48 編號；點來源可開啟原照片</span></footer>
+</div>
+<script>
+(() => {
+  const branchNames={root:"共同上代",long:"長房",second:"二房",minor:"幺房"};
+  const branchOrder={root:0,long:1,second:2,minor:3};
+  const layers=["第一代・始祖","第二代","始分老三門","二世祖・彥字輩","三世祖・單字名","四世祖・天字輩","五世祖・金字及同代旁支","六世祖・萬字輩","七世・國字輩","八世・慶字輩"];
+  const nodes=[]; const byId={};
+  const P=(id,name,level,branch="side",spouses=[],note="",sources=[],status="clear",type="person")=>{const n={id,name,level,branch,spouses,note,sources,status,type};nodes.push(n);byId[id]=n;return n};
+  const edges=[];
+  const E=(from,to,kind="child",source="")=>edges.push({from,to,kind,source});
+
+  // 先祖與中興三門。照片 6 的代次清楚，個別父子配對仍以虛線表示。
+  P("xin-an","心安",0,"root",[],"考妣合葬；第一塚。",[6]);
+  P("de-shun","德順",1,"root",[],"",[6]);
+  P("de-xing","德性",1,"root",[],"",[6]);
+  E("xin-an","de-shun","child","照片 6：已確認"); E("xin-an","de-xing","child","照片 6：已確認");
+  P("chang-nian","長年",2,"second",["妣氏羅","又氏黃"],"編譜從此，起名曰中興世祖。",[6,16]);
+  P("xia-nian","遐年",2,"long",["妣氏黃"],"",[6,16]);
+  P("yan-nian","延年",2,"minor",["妣氏施"],"",[6,16]);
+  // 三門作為獨立支系根列出；與德順、德性間未強行指定父子。
+
+  P("yan-long","彥龍",3,"long",["妣氏劉"],"",[16,17]);
+  P("yan-xun","彥勳",3,"second",["妣氏黃","又氏劉","又氏周"],"",[16,17]);
+  P("yan-gui","彥貴",3,"minor",["妣氏高"],"",[16,17]);
+  E("xia-nian","yan-long","child","照片 16"); E("xia-nian","yan-xun","child","照片 16"); E("chang-nian","yan-xun","adopted","照片 16：嗣子"); E("yan-nian","yan-gui","child","照片 16");
+
+  P("can","燦",4,"long",["妣氏王"],"",[17,18]); P("lie","烈",4,"long",["妣氏李"],"",[17,18]);
+  P("zhuo","灼",4,"second",["妣氏馮"],"",[17,18]); P("xi","溪",4,"second",["妣氏陳"],"",[17,18,19]);
+  P("zhang","章",4,"minor",["妣氏曹"],"",[17,19]); P("bing","炳",4,"minor",["妣氏郭","又氏施"],"",[17,19]); P("yu","煜",4,"minor",["妣氏金"],"",[17,19]);
+  E("yan-long","can","child","照片 17");E("yan-long","lie","child","照片 17");E("yan-xun","zhuo","child","照片 17");E("yan-xun","xi","child","照片 17");E("yan-gui","zhang","child","照片 17");E("yan-gui","bing","child","照片 17");E("yan-gui","yu","child","照片 17");
+
+  P("tian-you","天佑",5,"long",["妣氏李"],"",[7,18,20,22]); P("tian-shen","天申",5,"long",[],"鰥。",[18,20]); P("tian-xiang","天祥",5,"long",["妣氏金"],"",[18,20]); P("tian-hu","天祜",5,"long",["妣氏張（早死無出）","妣氏余"],"",[18,20,21]);
+  P("tian-pei","天培",5,"second",[],"",[18,10]); P("tian-zhi","天植",5,"second",[],"",[18,10]); P("tian-shun","天順",5,"second",[],"無嗣。",[18,10]);
+  P("tian-fu","天福",5,"second",[],"",[18,11]); P("tian-tai","天泰",5,"second",[],"",[18,11]);
+  P("tian-chun-zhang","天春",5,"minor",[],"無嗣。",[13,19]); P("tian-zhu","天柱",5,"minor",[],"",[13,19]); P("tian-chao","天朝",5,"minor",[],"",[13,19]); P("tian-xi","天錫",5,"minor",["妣氏何"],"",[19,21]); P("tian-fu2","天富",5,"minor",["妣氏金"],"無嗣。",[19,21]);
+  E("can","tian-you");E("can","tian-shen");E("can","tian-xiang");E("lie","tian-hu");E("zhuo","tian-pei");E("zhuo","tian-zhi");E("zhuo","tian-shun");E("xi","tian-fu");E("xi","tian-tai");E("zhang","tian-chun-zhang");E("bing","tian-zhu");E("bing","tian-chao");E("yu","tian-xi");E("yu","tian-fu2");
+
+  // 五世及照片 20–27 的續支。
+  P("qing-yuan-tianyou","慶元",6,"long",[],"鰥居無傳。",[7,20,22]);P("fa-tianxiang","發",6,"long",[],"妻下堂；一子乳名佳元；同治年間投軍未回。",[7,20]);
+  P("jin-yu","金玉",6,"long",["妣氏高（早死無出）","又氏高"],"",[20,22]);P("jin-he","金和",6,"long",[],"未婚早逝。",[20,23]);P("jin-bao","金寶",6,"long",["妣氏王"],"字楚藩；生於道光十六年丙申𦚭月初十午時。秉性剛直，我族祭田、祠堂皆翁倡辦；在社會言公，一言而人皆信服。宣統皇帝登基，刊刷謄黃，頒行天下。凡有齒有德之人當以旌表榮身；地方紳等公舉耇民，文邑尊批准，先給與九品候祿（此字存疑）案詳報，而翁不屑以為榮，力辭。年七十餘，看破世情，棄葷茹素。卒於民國九年二月初二日午時，葬於樸樹北第二層第三塚，有碑。妣氏王：生於道光十六年丙申十月十五辰時。三板橋會，八里䟕，東二里地王家灣，諱大吉之三女，諱萬之胞妹。萬早死，妻方氏十幾歲守寡，賢而且孝，沒後入節孝祠，事載府誌。母亦善治家。卒於光緒卅三年丁未臘月初三辰時。葬之日恰即宣統皇帝登極之日時也，樸樹墳北二層一塚有碑。",[20,23]);
+  P("jin-ao","金鰲／金鼇",6,"minor",["妣氏葉"],"母氏附養議雙祧馬。",[21,27],"partial");P("jin-yuan","金元",6,"minor",[],"鰥居無傳。",[13,22,27]);
+  P("qing-ancestor","慶",6,"long",["妣氏祝"],"",[7,20,22]);
+  P("shu","述",6,"second",["妣氏朱"],"",[10,24]);P("kai","楷",6,"second",["妣氏祝"],"",[10,24]);P("zhi","志",6,"second",["妣氏孫"],"",[10,24]);P("xing","興",6,"second",["妣氏羅"],"",[10,24]);
+  P("jin-you","金有",6,"second",[],"無嗣；不能入祠正位，妻下堂。",[11,25]);P("jin-rong","金榮",6,"second",["妣氏嚴"],"",[11,25]);P("jin-fu","金富",6,"second",["妣氏伍"],"",[11,25]);P("jin-gui","金貴",6,"second",["妣氏吳","又氏沈"],"沈氏生萬福；旁記夫死下堂、後夫死後復回本姓，不能入祠正位。",[11,25],"partial");
+  P("yue","金約／約",6,"minor",["妣氏朱"],"",[13,26]);P("jin-wang","金旺",6,"minor",["妣氏關"],"",[13,26]);P("jin-xiang","金相／金向",6,"minor",["妣氏王"],"",[13,26]);P("jin-yu2","金裕",6,"minor",["妣氏余"],"",[13,26]);
+  E("tian-chao","jin-yuan");E("tian-chao","jin-yu2");E("tian-zhu","jin-xiang");E("tian-zhu","yue");E("tian-zhu","jin-wang");
+
+  E("tian-you","qing-yuan-tianyou");E("tian-you","qing-ancestor");E("tian-xiang","fa-tianxiang");E("tian-hu","jin-yu");E("tian-hu","jin-he");E("tian-hu","jin-bao");E("tian-xi","jin-ao");
+  E("jin-yu","wan-sheng");E("jin-yu","wan-gui");E("jin-yu","wan-de");E("jin-bao","wan-peng");E("jin-bao","wan-yi");E("jin-bao","wan-yong");E("jin-bao","wan-xuan");E("jin-bao","wan-xiang");
+  E("shu","wan-chun");E("shu","wan-you");E("kai","wan-nian");E("zhi","wan-rong");E("zhi","wan-hua");E("xing","wan-fu-second");E("xing","wan-lin");
+  E("jin-rong","wan-yu");E("jin-fu","wan-jin");E("jin-gui","wan-fu");E("yue","wan-fa");E("yue","wan-yuan");E("yue","wan-quan");E("jin-wang","wan-xing");E("jin-xiang","wan-ming");E("jin-xiang","wan-hong");E("jin-xiang","wan-shun");E("jin-yu2","wan-bao");E("jin-yu2","wan-yin");E("jin-ao","wan-xiao");E("jin-ao","wan-xue");
+
+  E("tian-pei","shu");E("tian-zhi","kai");E("tian-zhi","zhi");E("tian-zhi","xing");E("tian-fu","jin-fu");E("tian-fu","jin-you");E("tian-fu","jin-rong");E("tian-tai","jin-gui");
+
+  // 六世／萬字輩。後頁詳記優先；同名一般合併，世代或父系記載明確衝突時才分列。
+  P("wan-zong","萬宗",7,"long",["妣氏朱"],"",[22,28]);P("wan-sheng","萬升",7,"long",["妣氏余"],"",[28]);P("wan-gui","萬貴",7,"long",["妣氏黃"],"",[28]);P("wan-de","萬德",7,"long",["妣氏周"],"前二子氏所出，後三子氏所出。小傳字翼生、號雲高，生於咸豐八年戊午二月初七丑時。",[28,29]);
+  P("wan-peng","萬鵬",7,"long",["妣氏李"],"李氏生於咸豐十一年辛酉九月十一亥時，後半生茹素，卒於民國六年丁巳閏二月十一日酉時。",[23,30]);P("wan-yi","萬億",7,"long",["妣氏高（三子皆其所出）","又氏陳"],"",[23,30]);P("wan-yong","萬永",7,"long",["妣氏周"],"",[31]);P("wan-xuan","萬選",7,"long",["妣氏何"],"生於同治十一年壬申二月十六日卯時。",[31]);P("wan-xiang","萬祥",7,"long",["妣氏張"],"首子由張氏所出，後二子由蔣氏所出。",[32],"partial");
+  P("wan-you","萬有",7,"second",[],"鰥居。",[24,32]);P("wan-chun","萬春",7,"second",[],"鰥居。",[24,32]);P("wan-nian","萬年",7,"second",["妣氏黃","妣氏高"],"（不能入祠正位）（無子，妻黃氏下堂，後買主死自回復跟原配）",[24,32]);P("wan-rong","萬榮",7,"second",[],"",[24]);P("wan-hua","萬華",7,"second",[],"鰥居；立兄之次子為嗣。生於同治六年丁卯；其餘小字待辨。",[24,33]);P("wan-fu-second","萬富",7,"second",[],"",[24]);P("wan-lin","萬林",7,"second",[],"",[24]);
+  P("wan-yu","萬玉",7,"second",[],"",[12,25,45]);P("wan-jin","萬金",7,"second",[],"",[11,25]);P("wan-fu","萬福",7,"second",[],"",[25]);P("wan-fa","萬發",7,"minor",[],"",[26,34],"partial");P("wan-yuan","萬元",7,"minor",[],"",[26,35]);P("wan-quan","萬全",7,"minor",[],"鰥。",[26,35]);P("wan-xing","萬興",7,"minor",["妣氏高"],"",[26,35]);P("wan-ming","萬明",7,"minor",["妣氏黃"],"無子。",[26,35]);P("wan-hong","萬洪",7,"minor",["妣氏龍（早死無出）"],"無子。",[26,35]);P("wan-shun","萬順",7,"minor",[],"",[26]);P("wan-bao","萬寶",7,"minor",["妣氏詹"],"",[26,36]);P("wan-yin","萬銀",7,"minor",["妣氏孫（下堂）"],"早死。",[26,36]);P("wan-xiao","萬校",7,"minor",["妣氏葉"],"不能入祠正位，母子不相能，服砒霜而死；妻施氏下堂。",[27,36],"partial");P("wan-xue","萬學",7,"minor",[],"",[27]);
+  E("qing-ancestor","wan-zong");E("wan-zong","guo-jun");E("wan-zong","guo-xing");E("wan-zong","guo-zhen");E("wan-sheng","guo-cheng");E("wan-sheng","guo-ying");E("wan-sheng","guo-ying瀛");E("wan-gui","guo-quan");E("wan-gui","guo-you");E("wan-de","guo-qiang");E("wan-de","guo-tai");E("wan-de","guo-yan");E("wan-de","guo-yi");E("wan-de","guo-en");
+  E("wan-peng","guo-lin");E("wan-peng","guo-yu");E("wan-yi","guo-yao");E("wan-yi","guo-kun");E("wan-yi","guo-run");E("wan-yong","guo-kui");E("wan-xuan","guo-han");E("wan-xuan","guo-zhang");E("wan-xuan","guo-xian");E("wan-xuan","guo-xian賢");E("wan-xiang","guo-bing");E("wan-xiang","guo-jin");E("wan-xiang","guo-ming");E("wan-rong","guo-liang","child","照片 24、33：萬榮為萬華之兄；萬華立兄之次子為嗣");E("wan-hua","guo-liang","adopted","照片 33：立兄之次子為嗣");E("wan-jin","guo-li","child","照片 11 右下角");E("wan-fa","guo-bao");E("wan-fa","guo-yuan-child");E("wan-yuan","guo-cai");E("wan-xing","guo-fu");E("wan-bao","guo-fa");E("wan-yin","guo-hua");E("wan-yin","guo-tang");E("wan-lin","guo-fu-chart");
+  E("wan-yu","guo-rong");
+
+  // 七世／國字輩：照片 28–47；未能確認上承者的名字獨立列於相應房支。
+  P("guo-jun","國俊",8,"long",["妣氏何"],"",[28,38]);P("guo-xing","國興",8,"long",[],"早死無子。",[28,38]);P("guo-zhen","國珍",8,"long",["妣氏朱"],"",[28,38]);P("guo-cheng","國成",8,"long",["妣氏蔡"],"",[28,38]);P("guo-ying","國瑩",8,"long",["妣氏朱"],"",[28,39]);P("guo-ying瀛","國瀛",8,"long",["妣氏劉"],"",[28,39]);P("guo-quan","國全",8,"long",["妣氏余","又妣氏金"],"",[28,39]);P("guo-you","國有",8,"long",["妣氏李","又妣氏金"],"",[28,39]);
+  P("guo-qiang","國強",8,"long",[],"",[28]);P("guo-tai","國泰",8,"long",["妣氏蔡"],"",[28,40]);P("guo-yan","國彥",8,"long",[],"未婚早死。",[28,40]);P("guo-yi","國義",8,"long",["妣氏梁"],"",[28,29,40]);P("guo-en","國恩",8,"long",["妣氏趙"],"",[28,29,40]);
+  P("guo-lin","國琳",8,"long",["妣氏嚴"],"早死無子。",[30,41]);P("guo-yu","國瑜",8,"long",["妣氏祝","妣氏敖（早死，所生一子多病亦夭）"],"無嗣。",[30,41,42]);P("guo-yao","國瑤／國堯",8,"long",["妣氏雷"],"",[30,42]);P("guo-run","國潤",8,"long",["妣氏鄧"],"",[30,43]);P("guo-kui","國奎",8,"long",[],"早死無子。",[31,42]);P("guo-han","國漢",8,"long",["妣氏秦"],"早死無子。",[31,42]);P("guo-zhang","國璋",8,"long",["妣氏劉"],"",[31,43]);P("guo-xian","國獻",8,"long",["妣氏李"],"",[31,43]);P("guo-xian賢","國賢",8,"long",["妣氏曹"],"無嗣。",[31,44]);
+  P("guo-bing","國炳",8,"long",["妣氏辜","又妣氏李"],"無嗣。",[32,44]);P("guo-jin","國金",8,"long",["妣氏敖"],"",[32,44]);P("guo-ming","國明",8,"long",[],"",[32]);P("guo-liang","國梁",8,"second",[],"",[33,45]);P("guo-bao","國寶",8,"minor",[],"未婚早死。",[34,45]);P("guo-yuan-child","國元",8,"minor",[],"",[34],"partial");P("guo-cai","國才",8,"minor",[],"未婚早死。",[35,46]);P("guo-fu","國富",8,"minor",["妣氏嚴"],"",[35,46]);P("guo-fa","國發",8,"minor",["妣氏黃"],"",[36,46]);P("guo-hua","國華",8,"minor",[],"",[36]);P("guo-tang","國堂",8,"minor",[],"當兵到新疆入籍；傳子二，姓名不詳。",[36,47]);
+  P("guo-fu-chart","國福",8,"second",[],"",[12,45]);P("guo-kun","國坤／國堒",8,"long",["妣氏敖","又妣氏劉"],"無嗣。",[30,43]);P("guo-zhu","國柱",8,"second",[],"",[44]);P("guo-rong","國學",8,"second",["妣氏嚴"],"",[11,12,45]);P("guo-li","國禮",8,"second",["妣氏周","又妣氏代"],"",[11,45]);P("guo-bin","國斌",8,"second",[],"無嗣。",[45]);P("guo-chun","國春",8,"minor",["妻楊氏"],"妻楊氏不賢，下嫁弟國清為妻；無嗣。",[46]);P("guo-qing","國清",8,"minor",[],"抗日未歸；楊氏下堂。",[46]);P("guo-shun","國順",8,"minor",["妣氏何"],"",[47]);P("guo-yong","國永",8,"minor",[],"",[47]);
+  E("guo-jun","qing-you");E("guo-zhen","qing-fu");E("guo-zhen","qing-shou");E("guo-cheng","qing-fa");E("guo-cheng","qing-yuan-guocheng");E("guo-ying","qing-en");E("guo-ying","qing-pei");E("guo-ying瀛","qing-fu2");E("guo-quan","mu-sheng");E("guo-quan","shu-sheng");E("guo-you","qing-de");E("guo-tai","qing-ming");E("guo-yi","qing-rong");E("guo-yi","qing-an-yi");E("guo-en","qing-wan");E("guo-run","qing-he");E("guo-zhang","qing-hong");E("guo-xian","qing-wen");E("guo-xian","qing-fu-assist");E("guo-jin","qing-hua");E("guo-zhu","qing-chao");E("guo-liang","qing-yong");E("guo-liang","qing-hai");E("guo-rong","qing-shan");E("guo-rong","qing-dong");E("guo-rong","qing-mao");E("guo-li","qing-gao");E("guo-fu","qing-you2");E("guo-fu","qing-liang");E("guo-fa","qing-zhu");E("guo-yao","qing-shen");E("guo-yao","qing-chang");E("guo-yao","an-qing");E("guo-shun","qing-gui");E("guo-shun","qing-song");E("guo-yong","qing-an-yong");E("guo-yong","qing-kun");
+
+  // 慶字輩及照片 48 的個人小記。
+  const q=(id,name,branch="side",note="",src=[],status="clear")=>P(id,name,9,branch,[],note,src,status);
+  q("qing-you","慶有","long","",[38]);q("qing-fu","慶福","long","",[38]);q("qing-shou","慶壽","long","",[38]);q("qing-fa","慶發","long","早死；妻何氏下堂。",[38,48]);q("qing-yuan-guocheng","慶元","long","",[38]);q("qing-en","慶恩","long","早死；妻王氏下堂。",[39,48]);q("qing-pei","慶培","long","",[39]);q("mu-sheng","木生","long","",[39]);q("shu-sheng","樹生","long","",[39]);q("qing-de","慶德","long","",[39]);q("qing-ming","慶明","long","",[40]);q("qing-rong","慶榮","long","",[40]);q("qing-an-yi","慶安","long","",[40]);q("qing-an-yong","慶安","minor","",[47]);q("qing-wan","慶萬","long","",[40]);q("qing-fu2","慶富","long","",[39]);q("qing-shen","慶申","long","",[42]);q("qing-chang","慶昌","long","",[42]);q("an-qing","安慶","long","",[42]);q("qing-he","慶和","long","",[43]);q("qing-hong","慶洪","long","",[43]);q("qing-wen","慶文","long","",[43]);q("qing-fu-assist","慶輔","long","",[43]);q("qing-hua","慶華","long","",[44]);q("qing-chao","慶朝","second","",[44]);q("qing-yong","慶永","second","",[45]);q("qing-hai","慶海","second","",[45]);q("qing-tai","慶太／慶泰","second","",[12,45]);q("qing-shan","慶山","second","",[11,12,45]);q("qing-dong","慶東／慶冬","second","",[11,12,45]);q("qing-mao","慶毛","second","",[11,45]);q("qing-gao","慶高","second","",[11,45]);q("qing-you2","慶友","minor","",[46]);q("qing-liang","慶良","minor","",[46]);q("qing-zhu","慶柱","minor","",[46]);q("qing-gui","慶貴","minor","",[47]);q("qing-song","慶松","minor","",[47]);q("qing-kun","慶坤","minor","",[47]);
+  byId["qing-fa"].spouses=["妻何氏（下堂）"];byId["qing-en"].spouses=["妻王氏（下堂）"];
+  E("guo-fu-chart","qing-tai");
+
+  const branchFilter=document.getElementById("filters"), search=document.getElementById("search"), viewport=document.getElementById("viewport"), world=document.getElementById("world"), svg=document.getElementById("edges"), cards=document.getElementById("cards"), columns=document.getElementById("columns"), inspector=document.getElementById("inspector");
+  const cardW=206,cardH=112,colGap=252,rowGap=128,left=42,top=66;let zoom=1,branch="all",selected=null,query="";
+  const escape=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  function visibleSet(){if(branch==="all")return new Set(nodes.map(n=>n.id));const visible=new Set(nodes.filter(n=>n.branch===branch).map(n=>n.id));let changed=true;while(changed){changed=false;edges.forEach(e=>{if(visible.has(e.to)&&!visible.has(e.from)){visible.add(e.from);changed=true}})}return visible}
+  function layout(visible){
+    const kids={};const incoming={};nodes.forEach(n=>{kids[n.id]=[];incoming[n.id]=0});
+    edges.filter(e=>e.kind!=="adopted"&&visible.has(e.from)&&visible.has(e.to)).forEach(e=>{kids[e.from].push(e.to);incoming[e.to]++});
+    Object.values(kids).forEach(list=>list.sort((a,b)=>(branchOrder[byId[a]?.branch]??99)-(branchOrder[byId[b]?.branch]??99)));
+    let row=0;const y={};const visiting=new Set();
+    const place=id=>{if(y[id]!=null)return y[id];if(visiting.has(id)){y[id]=top+row++*rowGap;return y[id]}visiting.add(id);const cs=kids[id]||[];let yy;if(cs.length){const childYs=cs.map(place);yy=childYs.reduce((a,b)=>a+b,0)/childYs.length}else{yy=top+row*rowGap;row++}visiting.delete(id);y[id]=yy;return yy};
+    nodes.filter(n=>visible.has(n.id)&&incoming[n.id]===0).sort((a,b)=>(branchOrder[a.branch]??99)-(branchOrder[b.branch]??99)||a.level-b.level).forEach(n=>place(n.id));nodes.filter(n=>visible.has(n.id)).forEach(n=>place(n.id));
+    return {y, height:Math.max(650,top+row*rowGap+95),width:left*2+(Math.max(...nodes.filter(n=>visible.has(n.id)).map(n=>n.level))+1)*colGap};
+  }
+  const sourceLabels={6:"三代始分與先人記載",7:"長房支派圖",8:"公房支派圖",9:"長房支派圖續頁",10:"二房支派圖",11:"三房支派圖",12:"二房支派圖",13:"公房支派圖",14:"公房支派圖",15:"公房世系補記"};
+  function related(id){const ancestors=new Set([id]),desc=new Set([id]);let change=true;while(change){change=false;edges.forEach(e=>{if(e.to===id||desc.has(e.from)&&!desc.has(e.to)){if(!desc.has(e.to)){desc.add(e.to);change=true}}if(e.to===id||ancestors.has(e.to)&&!ancestors.has(e.from)){if(!ancestors.has(e.from)){ancestors.add(e.from);change=true}}})}return new Set([...ancestors,...desc])}
+  function draw(){
+    const vis=visibleSet();const pos=layout(vis);world.style.width=pos.width+"px";world.style.height=pos.height+"px";svg.setAttribute("width",pos.width);svg.setAttribute("height",pos.height);svg.setAttribute("viewBox",`0 0 ${pos.width} ${pos.height}`);columns.innerHTML="";cards.innerHTML="";svg.innerHTML="";
+    layers.forEach((label,i)=>{if(nodes.some(n=>n.level===i&&vis.has(n.id))){const d=document.createElement("div");d.className="col-title";d.style.left=(left+i*colGap)+"px";const small=i>=2&&i<=8?`照片常用辈字：${["","","年","彥","單字名","天","金／同代旁名","萬","國"][i]||""}`:"依照片標題與世系層級整理";d.innerHTML=`${escape(label)}<span>${escape(small)}</span>`;columns.appendChild(d)}});
+    const pathSet=selected?related(selected):new Set();
+    edges.forEach(e=>{if(!vis.has(e.from)||!vis.has(e.to))return;const a=byId[e.from],b=byId[e.to];if(!a||!b)return;const x1=left+a.level*colGap+cardW,y1=pos.y[a.id]+cardH/2,x2=left+b.level*colGap,y2=pos.y[b.id]+cardH/2,mid=(x1+x2)/2;const p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute("d",`M ${x1} ${y1} C ${mid} ${y1}, ${mid} ${y2}, ${x2} ${y2}`);p.setAttribute("class","edge "+(e.kind==="tentative"?"tentative":e.kind==="adopted"?"adopted":e.kind==="context"?"context":""));if(selected&&(pathSet.has(e.from)||pathSet.has(e.to)))p.classList.add("selected");svg.appendChild(p)});
+    nodes.filter(n=>vis.has(n.id)).forEach(n=>{const el=document.createElement("article");el.className=`card branch-${n.branch} ${n.status==="tentative"||n.status==="partial"?"uncertain":""} ${n.type==="group"?"group":""}`;if(selected===n.id)el.classList.add("selected");else if(selected&&!pathSet.has(n.id))el.classList.add("dim");if(query&&!`${n.name} ${n.spouses.join(" ")} ${n.note}`.includes(query))el.classList.add("dim");el.style.left=(left+n.level*colGap)+"px";el.style.top=pos.y[n.id]+"px";const sp=n.spouses.length?`<div class="spouses">${n.spouses.map(s=>`<span class="spouse">${escape(s)}</span>`).join("")}</div>`:"";const badge=n.status==="partial"?"待核":n.status==="tentative"?"推接":"";el.innerHTML=`<i class="branch-mark"></i><div class="card-top"><span class="name">${escape(n.name)}</span><span class="generation-chip">${escape(branchNames[n.branch]||"")}${badge?" · "+badge:""}</span></div>${sp}${n.note?`<div class="note">${escape(n.note)}</div>`:""}`;el.addEventListener("click",()=>select(n.id));cards.appendChild(el)});
+    applyZoom();document.getElementById("countText").innerHTML=`顯示 <strong>${vis.size}</strong> 人物卡片　·　<strong>${edges.filter(e=>vis.has(e.from)&&vis.has(e.to)).length}</strong> 條關係線　<span class="pill">${branch==="all"?"全部房支":branchNames[branch]}</span>`;
+  }
+  function select(id){selected=id;const n=byId[id];if(!n)return;const inbound=edges.filter(e=>e.to===id&&byId[e.from]);const outbound=edges.filter(e=>e.from===id&&byId[e.to]);const parentLabel=e=>e.kind==="adopted"?"嗣父":e.kind==="child"?"生父":e.kind==="tentative"?"推接父系":"關聯父系";const childLabel=e=>e.kind==="adopted"?"嗣子":e.kind==="child"?"子嗣":e.kind==="tentative"?"推接子嗣":"關聯人物";const parents=[...new Set(inbound.map(e=>`${parentLabel(e)}：${byId[e.from].name}`))],children=[...new Set(outbound.map(e=>`${childLabel(e)}：${byId[e.to].name}`))];const src=[...new Set(n.sources)].sort((a,b)=>a-b);inspector.classList.add("open");inspector.innerHTML=`<div class="detail-kicker">${escape(branchNames[n.branch]||"族譜人物")}</div><h2 class="detail-title">${escape(n.name)}</h2><div class="detail-gen">${escape(layers[n.level]||"世系")}${n.status!=="clear"?" · 待核項目":""}</div>${n.spouses.length?`<section class="detail-section"><h3>配偶／妻妾</h3><div>${n.spouses.map(x=>`<span class="rel-chip">${escape(x)}</span>`).join("")}</div></section>`:""}<section class="detail-section"><h3>父系／嗣承記錄</h3><div class="detail-body">${parents.length?parents.map(escape).join("<br>"):"上承未能從目前筆記確定"}</div></section><section class="detail-section"><h3>子嗣</h3><div class="detail-body">${children.length?children.map(escape).join("<br>"):"未見子嗣記錄或本頁未載"}</div></section>${n.note?`<section class="detail-section"><h3>附記</h3><div class="detail-body">${escape(n.note)}</div></section>`:""}<section class="detail-section"><h3>照片來源</h3><div>${src.length?src.map(i=>`<a class="source-link" href="族谱照片/${i}.jpg" target="_blank" rel="noopener">照片 ${i}${sourceLabels[i]?" · "+escape(sourceLabels[i]):""}</a>`).join(""):"未標來源"}</div><div class="source-note">來源鏈可包含樹狀圖與詳細譜頁。標有「待核」的字形或親子配對依識讀稿保留疑問。</div></section>`;draw()}
+  function applyZoom(){world.style.transform=`scale(${zoom})`;document.getElementById("zoomLabel").textContent=Math.round(zoom*100)+"%"}
+  document.getElementById("zoomIn").onclick=()=>{zoom=Math.min(1.6,zoom+.1);applyZoom()};document.getElementById("zoomOut").onclick=()=>{zoom=Math.max(.35,zoom-.1);applyZoom()};document.getElementById("fit").onclick=()=>{const vis=visibleSet(),p=layout(vis);zoom=Math.max(.38,Math.min(1,Math.min((viewport.clientWidth-28)/p.width,(viewport.clientHeight-25)/p.height)));applyZoom();viewport.scrollTo({left:0,top:0,behavior:"smooth"})};
+  search.addEventListener("input",()=>{query=search.value.trim();draw()});branchFilter.addEventListener("click",ev=>{const btn=ev.target.closest("button[data-branch]");if(!btn)return;branch=btn.dataset.branch;branchFilter.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b===btn));selected=null;draw();viewport.scrollTo({left:0,top:0})});
+  viewport.addEventListener("wheel",ev=>{if(ev.shiftKey){viewport.scrollLeft+=ev.deltaY;ev.preventDefault()}},{passive:false});
+  window.addEventListener("resize",()=>{if(zoom<.6)document.getElementById("fit").click()});
+  draw();
+})();
+</script>
+</body>
+</html>
